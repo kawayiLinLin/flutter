@@ -2268,6 +2268,17 @@ class StaticSelectionContainerDelegate extends MultiSelectableSelectionContainer
   }
 
   @override
+  void layoutDidChange() {
+    super.layoutDidChange();
+    // When the layout changes (e.g., due to scrolling or keyboard appearance),
+    // update the cached global positions based on the current selection geometry.
+    // This ensures that the cached positions remain accurate when the content
+    // shifts, particularly in reversed ListViews where keyboard opening/closing
+    // causes vertical displacement.
+    _updateLastSelectionEdgeLocationsFromGeometries();
+  }
+
+  @override
   void dispose() {
     clearInternalSelectionState();
     super.dispose();
